@@ -12,8 +12,16 @@ export class ActivitiesService {
 
   getBuckets(): Observable<IBucket[]> {
     this.sortBuckets();
-    this.buckets.forEach(bucket => bucket.activities.forEach(activity => this.updateActivity(activity)))
+    this.buckets.forEach(bucket => bucket.activities!.forEach(activity => this.updateActivity(activity)))
     return of(this.buckets);
+  }
+
+  deleteActivity(activityIn: IActivity) {
+    this.deleteCurrentBucket(activityIn);
+    this.sortBuckets();
+  }
+  deleteBucket(bucketIn: IBucket) {
+   this.buckets.splice(this.buckets.findIndex(bucket => bucket.bucketId === bucketIn.bucketId), 1);
   }
   saveActivity(activityIn: IActivity) {
     if (activityIn.activityId) {
@@ -40,14 +48,15 @@ export class ActivitiesService {
 
   private createActivity(activityIn: IActivity) {
     if (!activityIn.startDate) {
-      this.buckets[0].activities.push(activityIn);
+      this.buckets[0].activities!.push(activityIn);
       return;
     }
     const bucket = this.buckets.find(bucket => bucket.date?.toDateString() === activityIn.startDate!.toDateString());
     if (bucket) {
-      bucket.activities.push(activityIn);
+      bucket.activities!.push(activityIn);
     } else {
       this.buckets.push({
+        bucketId: this.buckets.length + 1,
         date: activityIn.startDate!,
         activities: [activityIn]
       });
@@ -59,12 +68,12 @@ export class ActivitiesService {
   }
   private deleteCurrentBucket(activityIn: IActivity) {
     // Encontrar el bucket actual de la actividad
-    const currentBucket = this.buckets.find(bucket => bucket.activities.find(activity => activity.activityId === activityIn.activityId));
+    const currentBucket = this.buckets.find(bucket => bucket.activities!.find(activity => activity.activityId === activityIn.activityId));
 
     if (!currentBucket) {
       throw new Error(`No se pudo encontrar el bucket actual de la actividad con el título "${activityIn.title}"`);
     }
     // Eliminar la actividad del bucket actual
-    currentBucket.activities = currentBucket.activities.filter(activity => activity.activityId !== activityIn.activityId);
+    currentBucket.activities = currentBucket.activities!.filter(activity => activity.activityId !== activityIn.activityId);
   }
 }
