@@ -88,17 +88,17 @@ export class ActivitiesComponent {
   getIconForType(type: Types): string {
     switch (type) {
       case Types.Food:
-        return '../../../../../assets/icon/foodIcon.png';
+        return 'assets/icon/foodIcon.png';
       case Types.Study:
-        return '../../../../../assets/icon/studyIcon.png';
+        return 'assets/icon/studyIcon.png';
       case Types.JOURNEY:
-        return  '../../../../../assets/icon/journeyIcon.png';
+        return  'assets/icon/journeyIcon.png';
       case Types.Work:
-        return '../../../../../assets/icon/workIcon.png';
+        return 'assets/icon/workIcon.png';
       case Types.Sport:
-        return '../../../../../assets/icon/sportIcon.png';
+        return 'assets/icon/sportIcon.png';
       default:
-        return '../../../../../assets/icon/otherIcon.png';
+        return 'assets/icon/otherIcon.png';
     }
   }
 
