@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ModalActivityComponent} from "./components/modal-activity/modal-activity.component";
 import {ActivitiesService} from "./services/activities.service";
 import {BehaviorSubject} from "rxjs";
+import {ModalService} from "./services/modal.service";
 
 @Component({
   selector: 'app-board',
@@ -38,7 +39,7 @@ export class BoardComponent implements OnInit{
   public buckets:IBucket[] = [];
 
 
-  constructor( public readonly dialog: MatDialog, public readonly activitiesService: ActivitiesService ) {
+  constructor( public readonly activitiesService: ActivitiesService, private readonly modalService:ModalService) {
 
   }
   ngOnInit() {
@@ -49,14 +50,10 @@ export class BoardComponent implements OnInit{
       }
     );
   }
+
   openModal(): void {
-    this.dialog.open(ModalActivityComponent, {
-      width: '500px',
-      position: {
-        top: '60px',
-        right: '0px'
-      }
-    });
+    this.modalService.openModal();
   }
+
 
 }

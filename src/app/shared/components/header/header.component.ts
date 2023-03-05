@@ -2,6 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {ModalActivityComponent} from "../../../feature/board/components/modal-activity/modal-activity.component";
 import {MatDialog} from "@angular/material/dialog";
 import {IActivity} from "../../../feature/board/models/interfaces";
+import {ModalService} from "../../../feature/board/services/modal.service";
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import {IActivity} from "../../../feature/board/models/interfaces";
       <button mat-icon-button (click)="openSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
-      <span fxFlex>Itinerario</span>
+      <span fxFlex>Itinerario (Bariloche)</span>
       <button  mat-raised-button color="primary" (click)="openModal()"><mat-icon>add_circle</mat-icon> Agregar actividad</button>
     </mat-toolbar>
   `,
@@ -26,7 +27,7 @@ import {IActivity} from "../../../feature/board/models/interfaces";
 })
 export class HeaderComponent {
 
-  constructor(public dialog: MatDialog) {
+  constructor(private readonly modalService:ModalService) {
   }
 
   @Output() toggleSidenav:EventEmitter<any> = new EventEmitter<any>();
@@ -36,12 +37,6 @@ export class HeaderComponent {
   }
 
   openModal(): void {
-    this.dialog.open(ModalActivityComponent, {
-      width: '500px',
-      position: {
-        top: '60px',
-        right: '0px'
-      }
-    });
+    this.modalService.openModal();
   }
 }

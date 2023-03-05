@@ -3,6 +3,7 @@ import {IBucket} from "../../models/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {FormActivityComponent} from "../form-activity/form-activity.component";
 import {ModalActivityComponent} from "../modal-activity/modal-activity.component";
+import {ModalService} from "../../services/modal.service";
 
 @Component({
   selector: 'app-bucket',
@@ -14,7 +15,7 @@ import {ModalActivityComponent} from "../modal-activity/modal-activity.component
               Sin fecha asignada
           </h2>
           <app-activities [activities]="bucket!.activities"></app-activities>
-          <a (click)="openDialog()">+ Nueva</a>
+          <a (click)="openModal()">+ Nueva</a>
       </div>
   `,
   styles: [
@@ -28,23 +29,13 @@ import {ModalActivityComponent} from "../modal-activity/modal-activity.component
 })
 export class BucketActivitiesComponent {
 
-  constructor(public readonly dialog: MatDialog) {
+  constructor(private readonly modalService:ModalService) {
   }
 
   @Input() bucket?: IBucket;
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalActivityComponent, {
-      width: '500px',
-      position: {
-        top:'60px',
-        right:'0px'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  openModal(): void {
+    this.modalService.openModal();
   }
 
 }

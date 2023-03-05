@@ -4,6 +4,7 @@ import {IActivity} from "../../models/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {ModalActivityComponent} from "../modal-activity/modal-activity.component";
 import {Types} from "../../models/enums";
+import {ModalService} from "../../services/modal.service";
 
 
 @Component({
@@ -62,7 +63,7 @@ import {Types} from "../../models/enums";
 })
 export class ActivitiesComponent {
 
-  constructor(public readonly dialog: MatDialog) {
+  constructor(private readonly modalService:ModalService) {
   }
 
   @Input() activities: IActivity[] = [];
@@ -80,15 +81,8 @@ export class ActivitiesComponent {
     }
   }
 
-  openModal(activity: IActivity): void {
-    this.dialog.open(ModalActivityComponent, {
-      data: activity,
-      width: '500px',
-      position: {
-        top: '60px',
-        right: '0px'
-      }
-    });
+  openModal(activity:IActivity): void {
+    this.modalService.openModal(activity);
   }
 
   getIconForType(type: Types): string {
