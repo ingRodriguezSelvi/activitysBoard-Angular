@@ -14,3 +14,6 @@ export enum Status {
   'IN_PROGRESS' = 'En progreso',
   'DONE' = 'Hecho'
 }
+
+export const getTypes:Types[] = Object.values(Types);
+export const getStatus:Status[] = Object.values(Status);

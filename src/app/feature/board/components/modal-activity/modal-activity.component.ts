@@ -7,11 +7,11 @@ import {IActivity} from "../../models/interfaces";
   template:
     `
       <div class="header-modal">
-        <button mat-button><mat-icon>navigate_next</mat-icon></button>
+        <button mat-button (click)="close()"><mat-icon>navigate_next</mat-icon></button>
         <h2>{{data ? 'Editar actividad' : 'Crear actividad'}}</h2>
       </div>
       <div mat-dialog-content>
-          <app-form-activity [activity]="data"></app-form-activity>
+          <app-form-activity (close)="this.close()" [activity]="data"></app-form-activity>
       </div>
     `,
   styles: [
@@ -34,5 +34,9 @@ export class ModalActivityComponent {
     public dialogRef: MatDialogRef<ModalActivityComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IActivity,
   ) {}
+
+  close(){
+    this.dialogRef.close();
+  }
 
 }

@@ -1,8 +1,8 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IActivity} from "../../models/interfaces";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {ActivitiesService} from "../../services/activities.service";
+import {getStatus, getTypes, Status} from "../../models/enums";
 
 @Component({
   selector: 'app-form-activity',
@@ -15,8 +15,11 @@ import {ActivitiesService} from "../../services/activities.service";
         </mat-form-field>
         <mat-form-field fxFlex="100" appearance="outline">
           <mat-label>Tipo</mat-label>
-          <input matInput formControlName="type">
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+          </mat-select>
         </mat-form-field>
+
         <div fxFlex fxLayout="row" fxLayoutGap="12px">
           <mat-form-field fxFlex="50" appearance="outline">
             <input matInput [ngxMatDatetimePicker]="picker_one" placeholder="Choose a date" formControlName="startDate">
@@ -25,22 +28,20 @@ import {ActivitiesService} from "../../services/activities.service";
             </ngx-mat-datetime-picker>
           </mat-form-field>
           <mat-form-field fxFlex="50" appearance="outline">
-            <input matInput [ngxMatDatetimePicker]="picker_two" placeholder="Choose a date" formControlName="endDate">
+            <input matInput  [ngxMatDatetimePicker]="picker_two" placeholder="Choose a date" formControlName="endDate">
             <mat-datepicker-toggle matSuffix [for]="$any(picker_two)"></mat-datepicker-toggle>
             <ngx-mat-datetime-picker #picker_two>
             </ngx-mat-datetime-picker>
           </mat-form-field>
         </div>
         <mat-form-field fxFlex="100" appearance="outline">
-          <mat-label>Icon</mat-label>
-          <input matInput formControlName="icon">
-        </mat-form-field>
-        <mat-form-field fxFlex="100" appearance="outline">
-          <mat-label>Estado</mat-label>
-          <input matInput formControlName="status">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let state of status" [value]="state">{{state}}</mat-option>
+          </mat-select>
         </mat-form-field>
         <div align="end">
-          <button mat-button>Cancelar</button>
+          <button mat-button (click)="this.close.emit('close')">Cancelar</button>
           <button mat-raised-button color="primary" type="submit"
                   cdkFocusInitial>{{activity ? 'Editar' : 'Crear actividad'}}</button>
         </div>
@@ -61,35 +62,31 @@ export class FormActivityComponent implements OnInit {
   }
 
   @Input() activity?: IActivity;
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
+
+  types = getTypes;
+  status = getStatus;
 
   ngOnInit(): void {
     if (this.activity) {
       this.formActivity.patchValue(this.activity);
     }
   }
-
-
   formActivity: FormGroup = this.fb.group({
     activityId: [null],
     title: [, [Validators.required, Validators.minLength(3)]],
     type: [, [Validators.required]],
-    startDate: [, [Validators.required]],
-    endDate: [, [Validators.required]],
-    icon: [, [Validators.required]],
-    status: [, [Validators.required]],
+    startDate: [],
+    endDate: [],
+    status: [Status.PENDING, [Validators.required]],
   });
-
-
-  validateInput(input: string) {
-    return this.formActivity.controls[input].errors && this.formActivity.controls[input].touched;
-  }
-
   save() {
     if (this.formActivity.invalid) {
       this.formActivity.markAllAsTouched();
       return;
     }
     this.activitiesService.saveActivity(this.formActivity.value);
+    this.close.emit('close');
   }
 
 }

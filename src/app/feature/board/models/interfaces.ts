@@ -6,8 +6,7 @@ export interface IActivity {
   type: Types;
   startDate?: Date;
   endDate?: Date;
-  icon?: string;
-  status?: Status;
+  status: Status;
 }
 
 export interface IBucket {

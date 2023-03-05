@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IActivity, IBucket} from "../models/interfaces";
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {Status, Types} from "../models/enums";
+import {Observable, of} from "rxjs";
 import {dataMock} from "../mock/dataMock";
 
 @Injectable({
@@ -12,45 +11,39 @@ export class ActivitiesService {
   buckets: IBucket[] = dataMock;
 
   getBuckets(): Observable<IBucket[]> {
-    this.buckets.forEach(bucket => bucket.activities.forEach(activity => this.relocateActivityForDateBucket(activity)))
+    this.sortBuckets();
+    this.buckets.forEach(bucket => bucket.activities.forEach(activity => this.updateActivity(activity)))
     return of(this.buckets);
   }
   saveActivity(activityIn: IActivity) {
-    debugger;
     if (activityIn.activityId) {
       this.updateActivity(activityIn);
     } else {
       this.createActivity(activityIn);
     }
+    this.sortBuckets();
+  }
+
+  sortBuckets() {
+    this.buckets.sort((bucketOne, bucketTwo) => {
+      if (!bucketOne.date && !bucketTwo.date) {
+        return 0;
+      } else if (!bucketOne.date) {
+        return -1;
+      } else if (!bucketTwo.date) {
+        return 1;
+      } else {
+        return bucketOne.date.getTime() - bucketTwo.date.getTime();
+      }
+    });
   }
 
   private createActivity(activityIn: IActivity) {
-    const bucket = this.buckets.find(b => b.date?.toDateString() === activityIn.startDate!.toDateString());
-    if (bucket) {
-      bucket.activities.push(activityIn);
-    } else {
-      this.buckets.push({
-        date: activityIn.startDate!,
-        activities: [activityIn]
-      });
-    }
-  }
-
-  private updateActivity(activityIn: IActivity) {
-    this.deleteCurrentBucket(activityIn);
-    this.createActivity(activityIn);
-  }
-
-  relocateActivityForDateBucket(activityIn: IActivity) {
-    this.deleteCurrentBucket(activityIn);
-
-    //En caso de que no tenga fecha, se asigna al bucket sin fecha (bucket 0)
     if (!activityIn.startDate) {
       this.buckets[0].activities.push(activityIn);
       return;
     }
-
-    const bucket = this.buckets.find(b => b.date?.toDateString() === activityIn.startDate!.toDateString());
+    const bucket = this.buckets.find(bucket => bucket.date?.toDateString() === activityIn.startDate!.toDateString());
     if (bucket) {
       bucket.activities.push(activityIn);
     } else {
@@ -60,7 +53,10 @@ export class ActivitiesService {
       });
     }
   }
-
+  private updateActivity(activityIn: IActivity) {
+    this.deleteCurrentBucket(activityIn);
+    this.createActivity(activityIn);
+  }
   private deleteCurrentBucket(activityIn: IActivity) {
     // Encontrar el bucket actual de la actividad
     const currentBucket = this.buckets.find(bucket => bucket.activities.find(activity => activity.activityId === activityIn.activityId));

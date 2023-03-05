@@ -19,7 +19,7 @@ import {BehaviorSubject} from "rxjs";
     <ng-template #empty>
       <div class="empty">
         <mat-icon>inbox</mat-icon>
-        <p (click)="openDialog()">+ Agrega una nueva tarea</p>
+        <p (click)="openModal()">+ Agrega una nueva tarea</p>
       </div>
     </ng-template>
   `,
@@ -49,18 +49,14 @@ export class BoardComponent implements OnInit{
       }
     );
   }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalActivityComponent, {
-
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+  openModal(): void {
+    this.dialog.open(ModalActivityComponent, {
+      width: '500px',
+      position: {
+        top: '60px',
+        right: '0px'
+      }
     });
   }
-
-
-
 
 }

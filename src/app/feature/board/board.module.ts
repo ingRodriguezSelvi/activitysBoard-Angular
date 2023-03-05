@@ -17,6 +17,7 @@ import {
 } from "@angular-material-components/datetime-picker";
 import {MaterialModule} from "../../material/material.module";
 
+
 @NgModule({
     declarations: [
         BoardComponent,
@@ -38,7 +39,7 @@ import {MaterialModule} from "../../material/material.module";
     MaterialModule,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
-    NgxMatNativeDateModule
+    NgxMatNativeDateModule,
   ]
 })
 export class BoardModule { }

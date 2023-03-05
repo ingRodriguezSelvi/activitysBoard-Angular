@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component,  Input } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {IActivity, IBucket} from "../../models/interfaces";
-import {ActivitiesService} from "../../services/activities.service";
+import {IActivity} from "../../models/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {ModalActivityComponent} from "../modal-activity/modal-activity.component";
+import {Types} from "../../models/enums";
+
 
 @Component({
   selector: 'app-activities',
@@ -15,7 +16,7 @@ import {ModalActivityComponent} from "../modal-activity/modal-activity.component
       (cdkDropListDropped)="drop($event)">
       <div class="box" *ngFor="let item of activities" cdkDrag fxLayout="row wrap" fxLayoutGap="12px"
            (click)="openModal(item)">
-        <img [src]="item.icon" alt="icon" fxFlex="15" fxFlex.lt-sm="40">
+        <img [src]="getIconForType(item.type)" alt="icon" fxFlex="15" fxFlex.lt-sm="40">
         <div fxFlex="80" fxFlex.lt-sm="100">
           <h2>{{item.title}}</h2>
           <p>{{item.startDate | date:'HH:mm'}} - {{item.endDate | date:'HH:mm'}}</p>
@@ -80,7 +81,7 @@ export class ActivitiesComponent {
   }
 
   openModal(activity: IActivity): void {
-    const dialogRef = this.dialog.open(ModalActivityComponent, {
+    this.dialog.open(ModalActivityComponent, {
       data: activity,
       width: '500px',
       position: {
@@ -88,6 +89,23 @@ export class ActivitiesComponent {
         right: '0px'
       }
     });
+  }
+
+  getIconForType(type: Types): string {
+    switch (type) {
+      case Types.Food:
+        return '../../../../../assets/icon/foodIcon.png';
+      case Types.Study:
+        return '../../../../../assets/icon/studyIcon.png';
+      case Types.JOURNEY:
+        return  '../../../../../assets/icon/journeyIcon.png';
+      case Types.Work:
+        return '../../../../../assets/icon/workIcon.png';
+      case Types.Sport:
+        return '../../../../../assets/icon/sportIcon.png';
+      default:
+        return '../../../../../assets/icon/otherIcon.png';
+    }
   }
 
 }
