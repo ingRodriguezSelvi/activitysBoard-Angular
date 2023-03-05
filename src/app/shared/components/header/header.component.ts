@@ -11,7 +11,7 @@ import {ModalService} from "../../../feature/board/services/modal.service";
       <button mat-icon-button (click)="openSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
-      <span fxFlex>Itinerario (Bariloche)</span>
+      <span fxFlex>Itinerario</span>
       <button  mat-raised-button color="primary" (click)="openModal()"><mat-icon>add_circle</mat-icon> Agregar actividad</button>
     </mat-toolbar>
   `,

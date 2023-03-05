@@ -14,8 +14,9 @@ import {FlexModule} from "@angular/flex-layout";
     MaterialModule,
     FlexModule,
   ],
-  exports: [
-    HeaderComponent,
-  ]
+    exports: [
+        HeaderComponent,
+        HeaderComponent,
+    ]
 })
 export class SharedModule { }

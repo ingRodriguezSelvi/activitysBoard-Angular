@@ -39,7 +39,7 @@ import { Component } from '@angular/core';
 
     .sidenav-content {
       height: 100%;
-      margin: 50px;
+      margin: 60px 50px;
     }
 
     .sidenav {
