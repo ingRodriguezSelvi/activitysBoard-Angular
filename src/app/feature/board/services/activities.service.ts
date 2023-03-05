@@ -47,6 +47,8 @@ export class ActivitiesService {
   }
 
   private createActivity(activityIn: IActivity) {
+    //Setear el id de la actividad simulando un autoincremental del backend
+    activityIn.activityId = Math.max(...this.buckets.map(bucket => Math.max(...bucket.activities!.map(activity => activity.activityId)))) + 1;
     if (!activityIn.startDate) {
       this.buckets[0].activities!.push(activityIn);
       return;
