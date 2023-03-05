@@ -10,6 +10,8 @@ export interface IActivity {
 }
 
 export interface IBucket {
+
+  bucketId: number;
   date?: Date;
-  activities: IActivity[];
+  activities?: IActivity[];
 }

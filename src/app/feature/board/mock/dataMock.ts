@@ -3,6 +3,7 @@ import {Status, Types} from "../models/enums";
 
 export const dataMock: IBucket[] =  [
   {
+    bucketId: 1,
     activities: [
       {
         activityId: 1,
@@ -12,6 +13,7 @@ export const dataMock: IBucket[] =  [
       }]
   },
   {
+    bucketId: 2,
     date: new Date('2022-05-01'),
     activities: [
       {
@@ -23,6 +25,7 @@ export const dataMock: IBucket[] =  [
       }]
   },
   {
+    bucketId: 3,
     date: new Date('2022-05-02'),
     activities: [
       {
@@ -34,6 +37,7 @@ export const dataMock: IBucket[] =  [
       }]
   },
   {
+    bucketId: 4,
     date: new Date('2022-05-03'),
     activities: [
       {
