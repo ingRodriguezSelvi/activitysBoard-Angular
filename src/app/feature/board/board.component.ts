@@ -1,78 +1,66 @@
 import {Component, OnInit} from '@angular/core';
 import {IBucket} from "./models/interfaces";
+import {MatDialog} from "@angular/material/dialog";
+import {ModalActivityComponent} from "./components/modal-activity/modal-activity.component";
+import {ActivitiesService} from "./services/activities.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-board',
   template: `
-    <div cdkDropListGroup fxLayout="row wrap" fxLayoutGap="12px">
-      <app-bucket *ngFor="let todo of rows"
-        fxFlex [bucket]="todo"></app-bucket>
-      <mat-card></mat-card>
-    </div>
+    <ng-container *ngIf="buckets.length > 0; else empty;">
+      <div cdkDropListGroup fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutGap="12px">
+        <app-bucket *ngFor="let todo of buckets"
+                    fxFlex [bucket]="todo">
+
+        </app-bucket>
+      </div>
+    </ng-container>
+    <ng-template #empty>
+      <div class="empty">
+        <mat-icon>inbox</mat-icon>
+        <p (click)="openDialog()">+ Agrega una nueva tarea</p>
+      </div>
+    </ng-template>
   `,
   styles: [
     `
-      .container-row {
-        width: 400px;
-        max-width: 100%;
-        margin: 0 25px 25px 0;
-        display: inline-block;
-        vertical-align: top;
+      .empty {
+        color: #5e6c84;
+        cursor: pointer;
       }
     `
   ]
 })
 export class BoardComponent implements OnInit{
 
-  constructor() {
+
+  public buckets:IBucket[] = [];
+
+
+  constructor( public readonly dialog: MatDialog, public readonly activitiesService: ActivitiesService ) {
 
   }
   ngOnInit() {
-    this.rows.push(this.todo);
-    this.rows.push(this.inProgress);
-    this.rows.push(this.done);
-  }
-
-  rows:IBucket[]= [];
-
-  todo: IBucket = {
-    name: 'To do',
-    activities: [
-      {
-        title: 'Hacer cena',
-        type: 'task',
-        startDate: new Date(),
-        endDate: new Date(),
-        icon:'https://cdn-icons-png.flaticon.com/512/242/242452.png',
-        status: 'To do'
-      }]
-
-  }
-
-  inProgress: IBucket = {
-    name: 'In progress',
-    activities: [
-      {
-        title: 'Viajar a bogota',
-        type: 'task',
-        startDate: new Date(),
-        endDate: new Date(),
-        icon:'https://cdn-icons-png.flaticon.com/512/201/201623.png',
-        status: 'In progress'
-      }]
-  }
-
-  done: IBucket = {
-    name: 'Done',
-    activities: [
-      {
-        title: 'Comprar en Zara',
-        type: 'task',
-        startDate: new Date(),
-        endDate: new Date(),
-        status: 'Done',
-        icon: 'https://www.pngkey.com/png/full/292-2926301_icono-ropa-png-location-orange-icon-png.png'
+    this.activitiesService.getBuckets().subscribe(
+      (buckets:IBucket[]) => {
+        this.buckets = buckets;
+        localStorage.setItem('buckets', JSON.stringify(buckets));
       }
-    ]
+    );
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalActivityComponent, {
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+
+
+
 }

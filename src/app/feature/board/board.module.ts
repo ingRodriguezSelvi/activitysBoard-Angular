@@ -8,14 +8,22 @@ import {BucketActivitiesComponent} from "./components/bucket-activities/bucket-a
 import {ActivitiesComponent} from "./components/activities/activities.component";
 import {FlexModule} from "@angular/flex-layout";
 
-import {MatCardModule} from "@angular/material/card";
-
+import { FormActivityComponent } from './components/form-activity/form-activity.component';
+import { ModalActivityComponent } from './components/modal-activity/modal-activity.component';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from "@angular-material-components/datetime-picker";
+import {MaterialModule} from "../../material/material.module";
 
 @NgModule({
     declarations: [
         BoardComponent,
         ActivitiesComponent,
-        BucketActivitiesComponent
+        BucketActivitiesComponent,
+        FormActivityComponent,
+        ModalActivityComponent
     ],
     exports: [
         BoardComponent
@@ -27,7 +35,10 @@ import {MatCardModule} from "@angular/material/card";
     CdkDrag,
     BoarRoutingModule,
     FlexModule,
-    MatCardModule
+    MaterialModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ]
 })
 export class BoardModule { }

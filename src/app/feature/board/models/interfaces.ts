@@ -1,14 +1,16 @@
+import {Status, Types} from "./enums";
+
 export interface IActivity {
-  activityId?: number;
-  title?: string;
-  type?: string;
+  activityId: number;
+  title: string;
+  type: Types;
   startDate?: Date;
   endDate?: Date;
   icon?: string;
-  status?: string;
+  status?: Status;
 }
 
 export interface IBucket {
-  name: string;
+  date?: Date;
   activities: IActivity[];
 }

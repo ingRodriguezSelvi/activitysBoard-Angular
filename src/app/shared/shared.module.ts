@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {HeaderComponent} from "./components/header/header.component";
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import {MaterialModule} from "../material/material.module";
+import {FlexModule} from "@angular/flex-layout";
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -11,6 +12,7 @@ import {MaterialModule} from "../material/material.module";
   imports: [
     CommonModule,
     MaterialModule,
+    FlexModule,
   ],
   exports: [
     HeaderComponent,
