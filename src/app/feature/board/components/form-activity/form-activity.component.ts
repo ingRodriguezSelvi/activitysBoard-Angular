@@ -74,8 +74,8 @@ export class FormActivityComponent implements OnInit {
   }
   formActivity: FormGroup = this.fb.group({
     activityId: [null],
-    title: [, [Validators.required, Validators.minLength(3)]],
-    type: [, [Validators.required]],
+    title: [undefined, [Validators.required, Validators.minLength(3)]],
+    type: [undefined, [Validators.required]],
     startDate: [],
     endDate: [],
     status: [Status.PENDING, [Validators.required]],

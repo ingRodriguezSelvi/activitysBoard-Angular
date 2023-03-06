@@ -1,8 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {IBucket} from "../../models/interfaces";
-import {MatDialog} from "@angular/material/dialog";
-import {FormActivityComponent} from "../form-activity/form-activity.component";
-import {ModalActivityComponent} from "../modal-activity/modal-activity.component";
 import {ModalService} from "../../services/modal.service";
 import {ActivitiesService} from "../../services/activities.service";
 

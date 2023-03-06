@@ -16,6 +16,7 @@ import {
   NgxMatTimepickerModule
 } from "@angular-material-components/datetime-picker";
 import {MaterialModule} from "../../material/material.module";
+import { ActivityDetailsComponent } from './components/activity-details/activity-details.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {MaterialModule} from "../../material/material.module";
         ActivitiesComponent,
         BucketActivitiesComponent,
         FormActivityComponent,
-        ModalActivityComponent
+        ModalActivityComponent,
+        ActivityDetailsComponent
     ],
     exports: [
         BoardComponent
