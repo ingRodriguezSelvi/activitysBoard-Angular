@@ -14,7 +14,7 @@ export class ModalService {
     this.dialog.open(ModalActivityComponent, {
       data: activity,
       width: '500px',
-      minHeight: 'calc(110vh - 90px)',
+      minHeight: 'calc(200vh - 90px)',
       height : 'auto',
       position: {
         top: '0',
