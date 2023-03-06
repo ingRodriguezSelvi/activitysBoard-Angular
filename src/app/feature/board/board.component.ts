@@ -11,8 +11,8 @@ import {ModalService} from "./services/modal.service";
   template: `
     <ng-container *ngIf="buckets.length > 0; else empty;">
       <div cdkDropListGroup fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutGap="12px">
-        <app-bucket *ngFor="let todo of buckets"
-                    fxFlex [bucket]="todo">
+        <app-bucket *ngFor="let bucket of buckets"
+                    fxFlex [bucket]="bucket">
 
         </app-bucket>
       </div>
